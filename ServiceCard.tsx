@@ -1,24 +1,17 @@
-import ServiceCard from '../ServiceCard';
-import { FileText, Ambulance, Calendar } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
-export default function ServiceCardExample() {
+interface ServiceCardProps {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+export default function ServiceCard({ icon: Icon, title, desc }: ServiceCardProps) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <ServiceCard 
-        icon={FileText} 
-        title="Daily living support" 
-        desc="Bathing & hygiene, dressing, mobility/transfer assistance, meal prep & feeding, light housekeeping, medication reminders, companionship."
-      />
-      <ServiceCard 
-        icon={Ambulance} 
-        title="Complex care" 
-        desc="Dementia/cognitive support, fall‑prevention, Hoyer/transfer assistance, skin care & repositioning, vitals monitoring within CNA scope."
-      />
-      <ServiceCard 
-        icon={Calendar} 
-        title="Respite & routines" 
-        desc="Short‑term relief for family caregivers, post‑hospital routines, safe transport accompaniment to appointments & errands."
-      />
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" data-testid={`service-card-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+      <Icon className="mb-3 h-7 w-7 text-sky-700"/>
+      <h3 className="mb-1 text-lg font-semibold text-slate-900">{title}</h3>
+      <p className="text-sm leading-relaxed text-slate-600">{desc}</p>
     </div>
   );
 }

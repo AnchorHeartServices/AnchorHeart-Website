@@ -1,20 +1,32 @@
-import FAQItem from '../FAQItem';
+import { useState, useMemo, ReactNode } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
-export default function FAQItemExample() {
+interface FAQItemProps {
+  q: string;
+  a: ReactNode;
+}
+
+export default function FAQItem({ q, a }: FAQItemProps) {
+  const [open, setOpen] = useState(false);
+  const id = useMemo(() => q.toLowerCase().replace(/\W+/g, "-"), [q]);
+  
   return (
-    <div className="space-y-3">
-      <FAQItem 
-        q="Are you a home health agency?" 
-        a={<span>AnchorHeart provides non‑medical home care. For skilled nursing or therapy, we coordinate with your chosen home health or hospice team.</span>} 
-      />
-      <FAQItem 
-        q="Do you accept insurance?" 
-        a={<span>Private pay at time of service. We can provide superbills for possible long‑term care policy reimbursement.</span>} 
-      />
-      <FAQItem 
-        q="Is there a contract?" 
-        a={<span>No long‑term contract. Only a simple service agreement, visit minimums, and a 24‑hour cancellation policy.</span>} 
-      />
+    <div className="rounded-xl border border-slate-200 bg-white">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between gap-4 p-4 text-left"
+        aria-expanded={open}
+        aria-controls={`${id}-panel`}
+        data-testid={`button-faq-${id}`}
+      >
+        <span className="font-medium text-slate-900" id={id}>{q}</span>
+        {open ? <ChevronUp className="h-5 w-5 text-slate-500"/> : <ChevronDown className="h-5 w-5 text-slate-500"/>}
+      </button>
+      {open && (
+        <div id={`${id}-panel`} className="border-t border-slate-100 p-4 text-slate-600" role="region" aria-labelledby={id}>
+          {a}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,12 +1,19 @@
-import Stat from '../Stat';
-import { Clock, Heart, Shield } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
-export default function StatExample() {
+interface StatProps {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+}
+
+export default function Stat({ icon: Icon, label, value }: StatProps) {
   return (
-    <div className="grid max-w-lg grid-cols-3 gap-3">
-      <Stat icon={Clock} label="Response time" value="Same‑week starts"/>
-      <Stat icon={Heart} label="Client satisfaction" value="5★ feedback"/>
-      <Stat icon={Shield} label="Coverage" value="$1M / $3M"/>
+    <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100" data-testid={`stat-${label.toLowerCase().replace(/\s+/g, '-')}`}>
+      <Icon className="h-6 w-6 text-sky-700"/>
+      <div>
+        <div className="text-xs uppercase tracking-wide text-slate-500">{label}</div>
+        <div className="text-lg font-semibold text-slate-800">{value}</div>
+      </div>
     </div>
   );
 }
